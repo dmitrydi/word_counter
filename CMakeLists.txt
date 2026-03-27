@@ -2,9 +2,14 @@ cmake_minimum_required(VERSION 3.10)
 
 project(word_counter VERSION 1.0)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 set(SRC_FILES
-    src/file_reader.cpp
     src/file_reader.hpp
+    src/word_counter.hpp
+    src/file_writer.hpp
     src/main.cpp
 )
 
