@@ -1,0 +1,3 @@
+/home/dmitrydi/source/repos/word_counter/build/CMakeFiles/word_counter.dir
+/home/dmitrydi/source/repos/word_counter/build/CMakeFiles/edit_cache.dir
+/home/dmitrydi/source/repos/word_counter/build/CMakeFiles/rebuild_cache.dir

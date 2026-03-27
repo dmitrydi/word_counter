@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/word_counter.dir/src/file_reader.cpp.o CMakeFiles/word_counter.dir/src/main.cpp.o -o word_counter 
