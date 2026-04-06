@@ -32,6 +32,7 @@ public:
         m_pos = std::find_if(m_data + m_pos, m_data + m_size, [](char c) { return !std::isalpha(c); }) - m_data;
         return {m_data+start, m_pos - start};
     }
+    auto size() const { return m_size; }
     ~FileReader() {
         munmap((void*)m_data, m_size);
         close(m_file);

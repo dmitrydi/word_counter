@@ -21,6 +21,8 @@ inline unsigned char to_lower_ascii(unsigned char c) {
 }
 
 struct CaseInsensitiveHash { // FNV-1a
+    using is_transparent = void;
+
     size_t operator()(std::string_view sv) const noexcept {
         constexpr size_t FNV_OFFSET = 0xcbf29ce484222325ULL;
         constexpr size_t FNV_PRIME = 0x100000001b3ULL;
@@ -38,10 +40,11 @@ struct CaseInsensitiveHash { // FNV-1a
 struct CaseInsensitiveEqual {
     bool operator()(std::string_view a, std::string_view b) const noexcept {
         if (a.size() != b.size()) return false;
-        return std::equal(a.begin(), a.end(), b.begin(),
-            [](unsigned char ca, unsigned char cb) noexcept {
-                return to_lower_ascii(ca) == to_lower_ascii(cb);
-            });
+        for (size_t i = 0; i < a.size(); ++i) {
+            if (to_lower_ascii(a[i]) != to_lower_ascii(b[i]))
+                return false;
+        }
+        return true;
     }
 };
 
@@ -60,11 +63,14 @@ using MapType = std::unordered_map<std::string_view, uint64_t, CaseInsensitiveHa
 template<typename T>
 concept HasNext = requires(T t) {
     { t.next() } -> std::same_as<std::string_view>;
+    { t.size() } -> std::convertible_to<size_t>;
 };
 
 template<HasNext ReaderType>
 MapType make_mapping(ReaderType& reader) {
     MapType result;
+    result.max_load_factor(10.0f);
+    result.reserve(reader.size()/5); // 5 == mean size of english word
     for(;;) {
         auto sv = reader.next();
         if(sv.empty()) { break; }

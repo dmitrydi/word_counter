@@ -4,6 +4,7 @@
 #include "file_reader.hpp"
 #include "file_writer.hpp"
 #include "word_counter.hpp"
+#include <gperftools/profiler.h>
 
 int main(int argc, char* argv[]) {
     try{
