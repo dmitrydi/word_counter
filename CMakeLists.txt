@@ -21,9 +21,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE 
-    -O3                    
-    -march=native                      
+    -O2
+    -march=native
     -funroll-loops
+    -flto
 )
 
-target_link_libraries(${PROJECT_NAME} profiler)
+target_link_options(${PROJECT_NAME} PRIVATE -flto)
